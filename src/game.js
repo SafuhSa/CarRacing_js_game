@@ -34,7 +34,7 @@ class Game {
 Game.BG_COLOR = "#000000";
 Game.DIM_X = 1000;
 Game.DIM_Y = 600;
-Game.FPS = 32;
-Game.NUM_ASTEROIDS = 10;
+// Game.FPS = 32;
+// Game.NUM_ASTEROIDS = 10;
 
 module.exports = Game;

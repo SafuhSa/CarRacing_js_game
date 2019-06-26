@@ -4,7 +4,7 @@ class GameView {
     this.game = game;
     // this.ship = this.game.addShip()
   }
-
+  // static
   start() {
     this.bindKeyHandlers();
     this.lastTime = 0;
