@@ -41,6 +41,16 @@
 
     var canvas, canvasContext;
 
+    const KEY_LEFT_ARROW = 37;
+    const KEY_UP_ARROW = 38;
+    const KEY_RIGHT_ARROW = 39;
+    const KEY_DOWN_ARROW = 40;
+    
+    var keyHeld_Gas = false;
+    var keyHeld_Reverse = false;
+    var keyHeld_TurnLeft = false;
+    var keyHeld_TurnRigh = false;
+    
     var mouseX = 0;
     var mouseY = 0;
 
@@ -57,7 +67,29 @@
       carSpeedX = 4;
       carSpeedY = -4;*/
     }
+    function keyPressed(event) {
+      // event.keyCode
 
+      if(event.keyCode === KEY_LEFT_ARROW) {
+        carAng -= 0.5;
+      } 
+      if(event.keyCode == KEY_RIGHT_ARROW) {
+        carAng += 0.5;
+      }
+      if(event.keyCode === KEY_UP_ARROW) {
+        carSpeed += 0.5;
+      } 
+      if(event.keyCode == KEY_DOWN_ARROW) {
+        carSpeed -= 0.5;
+      }
+    }
+
+    function keyReleased(event) {
+      event.keyCode
+
+    }
+    
+    
     window.onload = function () {
       canvas = document.getElementById('gameCanvas');
       canvasContext = canvas.getContext('2d');
@@ -67,6 +99,10 @@
 
       canvas.addEventListener('mousemove', updateMousePos);
 
+      document.addEventListener('keydown', keyPressed);
+      document.addEventListener('keyup', keyReleased);
+      
+      
       carPic.onload = function () {
         carPicLoaded = true;
       }
@@ -93,25 +129,10 @@
       }
     }
 
+
     function carMove() {
       carX += Math.cos(carAng) * carSpeed;
       carY += Math.sin(carAng) * carSpeed;
-      
-      carAng += 0.02;
-      
-      if (carX < 0 && carSpeedX < 0.0) { //left
-        carSpeedX *= -1;
-      }
-      if (carX > canvas.width && carSpeedX > 0.0) { // right
-        carSpeedX *= -1;
-      }
-      if (carY < 0 && carSpeedY < 0.0) { // top
-        carSpeedY *= -1;
-      }
-      if (carY > canvas.height) { // bottom
-        carReset();
-        trackReset();
-      }
     }
 
     function isTrackAtColRow(col, row) {
@@ -133,33 +154,7 @@
         carTrackRow >= 0 && carTrackRow < TRACK_ROWS) {
 
         if (isTrackAtColRow(carTrackCol, carTrackRow)) {
-          // console.log(tracksLeft);
-
-          var prevCarX = carX - carSpeedX;
-          var prevCarY = carY - carSpeedY;
-          var prevTrackCol = Math.floor(prevCarX / TRACK_W);
-          var prevTrackRow = Math.floor(prevCarY / TRACK_H);
-
-          var bothTestsFailed = true;
-
-          if (prevTrackCol != carTrackCol) {
-            if (isTrackAtColRow(prevTrackCol, carTrackRow) == false) {
-              carSpeedX *= -1;
-              bothTestsFailed = false;
-            }
-          }
-          if (prevTrackRow != carTrackRow) {
-            if (isTrackAtColRow(carTrackCol, prevTrackRow) == false) {
-              carSpeedY *= -1;
-              bothTestsFailed = false;
-            }
-          }
-
-          if (bothTestsFailed) { // armpit case, prevents car from going through
-            carSpeedX *= -1;
-            carSpeedY *= -1;
-          }
-
+          carSpeed *= -1;
         } // end of track found
       } // end of valid col and row
     } // end of carTrackHandling func
