@@ -126,7 +126,7 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\nclass Game {\n  constructor() {\n\n  }\n\n  add(obj) {\n\n  }\n\n  checkCollisions() {\n\n  }\n\n  draw(ctx) {\n    ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);\n    ctx.fillStyle = Game.BG_COLOR;\n    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);\n\n    this.allObjects().forEach((object) => {\n      object.draw(ctx);\n    });\n  }\n\n  randomPosition() {\n    return [\n      Game.DIM_X * Math.random(),\n      Game.DIM_Y * Math.random()\n    ];\n  }\n\n}\n\nGame.BG_COLOR = \"#000000\";\nGame.DIM_X = 1000;\nGame.DIM_Y = 600;\n// Game.FPS = 32;\n// Game.NUM_ASTEROIDS = 10;\n\nmodule.exports = Game;\n\n//# sourceURL=webpack:///./src/game.js?");
+eval("\nclass Game {\n  constructor() {\n\n  }\n\n  add(obj) {\n\n  }\n\n  checkCollisions() {\n\n  }\n\n  draw(ctx) {\n    ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);\n    ctx.fillStyle = Game.BG_COLOR;\n    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);\n\n    this.allObjects().forEach((object) => {\n      object.draw(ctx);\n    });\n  }\n\n  randomPosition() {\n    return [\n      Game.DIM_X * Math.random(),\n      Game.DIM_Y * Math.random()\n    ];\n  }\n\n}\n\n// Game.BG_COLOR = \"#000000\";\n// Game.DIM_X = 1000;\n// Game.DIM_Y = 600;\n// Game.FPS = 32;\n// Game.NUM_ASTEROIDS = 10;\n\nmodule.exports = Game;\n\n//# sourceURL=webpack:///./src/game.js?");
 
 /***/ }),
 
@@ -135,9 +135,20 @@ eval("\nclass Game {\n  constructor() {\n\n  }\n\n  add(obj) {\n\n  }\n\n  check
   !*** ./src/game_view.js ***!
   \**************************/
 /*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const GraphicCommon = __webpack_require__(/*! ./graphics_common */ \"./src/graphics_common.js\");\n// const ImgLoading = \nclass GameView {\n  constructor(game, ctx) {\n    this.ctx = ctx;\n    this.game = game;\n  }\n\n  loadGame() {\n    GraphicCommon.colorRect(this.ctx, 0, 0, GameView.WIDTH, GameView.HEIGHT, 'black');\n    GraphicCommon.colorText(this.ctx, \"LOADING IMAGES\", GameView.WIDTH / 2, GameView.HEIGHT / 2, 'white');\n\n    loadImages();\n  }\n  \n  start() {\n\n\n    this.bindKeyHandlers();\n    this.lastTime = 0;\n    // start the animation\n   this.id = requestAnimationFrame(this.animate.bind(this));\n  }\n\n  animate(time) {\n    const timeDelta = time - this.lastTime;\n\n    this.game.step(timeDelta);\n    this.game.draw(this.ctx);\n    this.lastTime = time;\n\n    // every call to animate requests causes another call to animate\n   this.id = requestAnimationFrame(this.animate.bind(this));\n  }\n}\n\n\nGameView.BG_COLOR = \"#000000\";\nGameView.WIDTH = 1000; \nGameView.HEIGHT = 600;\n\nGameView.MOVES = {\n  w: [0, -1],\n  a: [-1, 0],\n  s: [0, 1],\n  d: [1, 0],\n};\n\nmodule.exports = GameView;\n\n//# sourceURL=webpack:///./src/game_view.js?");
+
+/***/ }),
+
+/***/ "./src/graphics_common.js":
+/*!********************************!*\
+  !*** ./src/graphics_common.js ***!
+  \********************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class GameView {\n  constructor(game, ctx) {\n    this.ctx = ctx;\n    this.game = game;\n    // this.ship = this.game.addShip()\n  }\n  // static\n  start() {\n    this.bindKeyHandlers();\n    this.lastTime = 0;\n    // start the animation\n   this.id = requestAnimationFrame(this.animate.bind(this));\n  }\n\n  animate(time) {\n    const timeDelta = time - this.lastTime;\n\n    this.game.step(timeDelta);\n    this.game.draw(this.ctx);\n    this.lastTime = time;\n\n    // every call to animate requests causes another call to animate\n   this.id = requestAnimationFrame(this.animate.bind(this));\n  }\n}\n\nGameView.MOVES = {\n  w: [0, -1],\n  a: [-1, 0],\n  s: [0, 1],\n  d: [1, 0],\n};\n\nmodule.exports = GameView;\n\n//# sourceURL=webpack:///./src/game_view.js?");
+eval("class GraphicCommon {\n  static drawBitmapCenteredWithRotation(useBitmap, atX, atY, withAng) {\n    canvasContext.save();\n    canvasContext.translate(atX, atY);\n    canvasContext.rotate(withAng);\n    canvasContext.drawImage(useBitmap, -useBitmap.width / 2, -useBitmap.height / 2);\n    canvasContext.restore();\n  }\n  \n  static colorRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {\n    canvasContext.fillStyle = fillColor;\n    canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);\n  }\n\n  static colorCircle(centerX, centerY, radius, fillColor) {\n    canvasContext.fillStyle = fillColor;\n    canvasContext.beginPath();\n    canvasContext.arc(centerX, centerY, 10, 0, Math.PI * 2, true);\n    canvasContext.fill();\n  }\n\n  static colorText(canvasContext, showWords, textX, textY, fillColor) {\n    canvasContext.fillStyle = fillColor;\n    canvasContext.fillText(showWords, textX, textY);\n  }\n}\n\nmodule.exports = GraphicCommon;\n\n//# sourceURL=webpack:///./src/graphics_common.js?");
 
 /***/ }),
 
@@ -149,7 +160,7 @@ eval("class GameView {\n  constructor(game, ctx) {\n    this.ctx = ctx;\n    thi
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n\nconst Game = __webpack_require__(/*! ./game */ \"./src/game.js\");\nconst GameView = __webpack_require__(/*! ./game_view */ \"./src/game_view.js\");\n\ndocument.addEventListener(\"DOMContentLoaded\", () => { \n  const canvasEl = document.getElementById(\"gameCanvas\");\n  canvasEl.width = Game.DIM_X;\n  canvasEl.height = Game.DIM_Y;\n  const ctx = canvasEl.getContext(\"2d\");\n  \n  \n  const game = new Game();\n  new GameView(game, ctx).start();\n  \n})\n// ctx.fillStyle = 'black';\n// ctx.fillRect(0, 0, canvasEl.width, canvasEl.height)\n// ctx.fillStyle = 'white';\n// ctx.beginPath();\n// ctx.arc(100, 100, 10, 0, Math.PI*2, true);\n// ctx.fill();\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n\nconst Game = __webpack_require__(/*! ./game */ \"./src/game.js\");\nconst GameView = __webpack_require__(/*! ./game_view */ \"./src/game_view.js\");\n\ndocument.addEventListener(\"DOMContentLoaded\", () => { \n  const canvasEl = document.getElementById(\"gameCanvas\");\n  canvasEl.width = GameView.WIDTH;\n  canvasEl.height = GameView.HEIGHT;\n  const ctx = canvasEl.getContext(\"2d\");\n\n  \n  const game = new Game();\n  new GameView(game, ctx).loadGame();\n})\n// ctx.fillStyle = 'black';\n// ctx.fillRect(0, 0, canvasEl.width, canvasEl.height)\n// ctx.fillStyle = 'white';\n// ctx.beginPath();\n// ctx.arc(100, 100, 10, 0, Math.PI*2, true);\n// ctx.fill();\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

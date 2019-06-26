@@ -4,14 +4,13 @@ const GameView = require('./game_view');
 
 document.addEventListener("DOMContentLoaded", () => { 
   const canvasEl = document.getElementById("gameCanvas");
-  canvasEl.width = Game.DIM_X;
-  canvasEl.height = Game.DIM_Y;
+  canvasEl.width = GameView.WIDTH;
+  canvasEl.height = GameView.HEIGHT;
   const ctx = canvasEl.getContext("2d");
-  
+
   
   const game = new Game();
-  new GameView(game, ctx).start();
-  
+  new GameView(game, ctx).loadGame();
 })
 // ctx.fillStyle = 'black';
 // ctx.fillRect(0, 0, canvasEl.width, canvasEl.height)
