@@ -1,7 +1,7 @@
 var canvas, canvasContext;
 
-var blueCar = new carClass();
-var greenCar = new carClass();
+var blueCar = new Car();
+var greenCar = new Car();
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -18,8 +18,22 @@ function imageLoadingDoneSoStartGame() {
 	setInterval(updateAll, 1000/framesPerSecond);
 
 	setupInput();
-	greenCar.reset(otherCarPic);
-	blueCar.reset(carPic);
+
+	loadLevel(levelList[levelNow]);
+}
+
+function nextLevel() {
+	levelNow++;
+	if(levelNow >= levelList.length) {
+		levelNow = 0;
+	}
+	loadLevel(levelList[levelNow]);
+}
+
+function loadLevel(whichLevel) {
+	trackGrid = whichLevel.slice();
+	greenCar.reset(otherCarPic, "Green Machine");
+	blueCar.reset(carPic, "Blue Storm");
 }
 
 function updateAll() {
