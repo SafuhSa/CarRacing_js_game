@@ -1,6 +1,8 @@
 const GraphicCommon = require('./graphics_common');
 const ImgLoading = require('./img_loading');
 const Track = require('./track');
+const LevelMaps = require("./level_maps");
+const car = require('./car');
 
 class GameView {
   constructor(game, ctx) {
@@ -8,22 +10,28 @@ class GameView {
     this.game = game;
     this.levelNow = 0;
     this.track = new Track()
+    this.blueCar = new carClass();
+    this.greenCar = new carClass();
+
+    this.drawAll = this.drawAll.bind(this);
+    this.imageLoadingDoneSoStartGame = this.imageLoadingDoneSoStartGame.bind(this);
+    this.updateAll = this.updateAll.bind(this);
   }
 
   loadGame() {
     GraphicCommon.colorRect(this.ctx, 0, 0, GameView.WIDTH, GameView.HEIGHT, 'black');
     GraphicCommon.colorText(this.ctx, "LOADING IMAGES", GameView.WIDTH / 2, GameView.HEIGHT / 2, 'white');
-    new ImgLoading().loadImages();
+    new ImgLoading(this).loadImages();
   }
 
   imageLoadingDoneSoStartGame(trackPics) {
     this.track.trackPics = trackPics;
     var framesPerSecond = 30;
-    setInterval(updateAll, 1000 / framesPerSecond);
+    // setInterval(this.updateAll, 1000 / framesPerSecond);
 
-    setupInput();
+    // setupInput();
 
-    this.loadLevel(levelList[levelNow]);
+    this.loadLevel(LevelMaps.levelList[this.levelNow]);
   }
 
   nextLevel() {
@@ -31,7 +39,7 @@ class GameView {
     if (this.levelNow >= levelList.length) {
       this.levelNow = 0;
     }
-    this.loadLevel(levelList[levelNow]);
+    this.loadLevel(LevelMaps.levelList[levelNow]);
   }
 
   loadLevel(whichLevel) {

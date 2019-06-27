@@ -1,25 +1,30 @@
-const Track = require('./track');
+const LevelMaps = require('./level_maps');
+
+
 class ImgLoading {
-  constructor() {
+  constructor(GameView) {
     this.picsToLoad = 0; // set automatically based on imageList in loadImages()
     this.trackPics = [];
-
-    // this.countLoadedImagesAndLaunchIfReady = this.countLoadedImagesAndLaunchIfReady.bind(this);
-    // this.beginLoadingImage = this.beginLoadingImage.bind(this);
-    // this.loadImageForTrackCode = this.loadImageForTrackCode.bind(this);
+    this.gameView = GameView;
+    
+    this.countLoadedImagesAndLaunchIfReady = this.countLoadedImagesAndLaunchIfReady.bind(this);
+    this.beginLoadingImage = this.beginLoadingImage.bind(this);
+    this.loadImageForTrackCode = this.loadImageForTrackCode.bind(this);
+    this.loadImages = this.loadImages.bind(this);
   }
 
   countLoadedImagesAndLaunchIfReady() {
-    picsToLoad--;
-    // console.log(picsToLoad);
-    if (picsToLoad == 0) {
-      imageLoadingDoneSoStartGame(this.trackPics);
+    this.picsToLoad--;
+    // console.log(this.picsToLoad);
+    if (this.picsToLoad == 0) {
+      // console.log('image loaded')
+      this.gameView.imageLoadingDoneSoStartGame(this.trackPics);
     }
   }
 
   beginLoadingImage(imgVar, fileName) {
     imgVar.onload = this.countLoadedImagesAndLaunchIfReady;
-    imgVar.src = "images/" + fileName;
+    imgVar.src = "./images/" + fileName;
   }
 
   loadImageForTrackCode(trackCode, fileName) {
@@ -35,15 +40,14 @@ class ImgLoading {
       { varName: carPic, theFile: "player1car.png" },
       { varName: otherCarPic, theFile: "player2car.png" },
 
-      { trackType: Track.ROAD, theFile: "track_road.png" },
-      { trackType: Track.WALL, theFile: "track_wall.png" },
-      { trackType: Track.GOAL, theFile: "track_goal.png" },
-      { trackType: Track.TREE, theFile: "track_tree.png" },
-      { trackType: Track.FLAG, theFile: "track_flag.png" }
+      { trackType: LevelMaps.ROAD, theFile: "track_road.png" },
+      { trackType: LevelMaps.WALL, theFile: "track_wall.png" },
+      { trackType: LevelMaps.GOAL, theFile: "track_goal.png" },
+      { trackType: LevelMaps.TREE, theFile: "track_tree.png" },
+      { trackType: LevelMaps.FLAG, theFile: "track_flag.png" }
     ];
 
     this.picsToLoad = imageList.length;
-
     for (var i = 0; i < imageList.length; i++) {
       if (imageList[i].varName !== undefined) {
         this.beginLoadingImage(imageList[i].varName, imageList[i].theFile);

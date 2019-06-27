@@ -1,3 +1,5 @@
+const LevelMaps = require('./level_maps');
+
 class Track {
   constructor() {
     this.levelNow = 0;
@@ -6,8 +8,8 @@ class Track {
   }
 
   returnTileTypeAtColRow(col, row) {
-    if (col >= 0 && col < TRACK_COLS &&
-      row >= 0 && row < TRACK_ROWS) {
+    if (col >= 0 && col < LevelMaps.COLS &&
+      row >= 0 && row < LevelMaps.ROWS) {
       var trackIndexUnderCoord = this.rowColToArrayIndex(col, row);
       return this.trackGrid[trackIndexUnderCoord];
     } else {
@@ -16,15 +18,15 @@ class Track {
   }
 
   carTrackHandling(whichCar) {
-    var carTrackCol = Math.floor(whichCar.x / TRACK_W);
-    var carTrackRow = Math.floor(whichCar.y / TRACK_H);
+    var carTrackCol = Math.floor(whichCar.x / LevelMaps.W);
+    var carTrackRow = Math.floor(whichCar.y / LevelMaps.H);
     // var trackIndexUnderCar = rowColToArrayIndex(carTrackCol, carTrackRow);
 
-    if (carTrackCol >= 0 && carTrackCol < TRACK_COLS &&
-      carTrackRow >= 0 && carTrackRow < TRACK_ROWS) {
+    if (carTrackCol >= 0 && carTrackCol < LevelMaps.COLS &&
+      carTrackRow >= 0 && carTrackRow < LevelMaps.ROWS) {
       var tileHere = returnTileTypeAtColRow(carTrackCol, carTrackRow);
 
-      if (tileHere == TRACK_GOAL) {
+      if (tileHere == LevelMaps.GOAL) {
         console.log(whichCar.name + " WINS!");
         nextLevel();
       } else if (tileHere != Track.ROAD) {
@@ -38,39 +40,42 @@ class Track {
     } // end of valid col and row
   } // end of carTrackHandling func
   rowColToArrayIndex(col, row) {
-    return col + TRACK_COLS * row;
+    return col + LevelMaps.COLS * row;
   }
 
   drawTracks(canvasContext) {
     var arrayIndex = 0;
     var drawTileX = 0;
     var drawTileY = 0;
-    for (var eachRow = 0; eachRow < TRACK_ROWS; eachRow++) {
-      for (var eachCol = 0; eachCol < TRACK_COLS; eachCol++) {
+    for (var eachRow = 0; eachRow < LevelMaps.ROWS; eachRow++) {
+      for (var eachCol = 0; eachCol < LevelMaps.COLS; eachCol++) {
 
         var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
         var tileKindHere = trackGrid[arrayIndex];
         var useImg = trackPics[tileKindHere];
 
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
-        drawTileX += TRACK_W;
+        drawTileX += LevelMaps.W;
         arrayIndex++;
       } // end of for each col
-      drawTileY += TRACK_H;
+      drawTileY += LevelMaps.H;
       drawTileX = 0;
     } // end of for each row
   } // end of drawTracks func
 }
 
+// Track.ROAD = 0;
+// Track.WALL = 1;
+// Track.PLAYERSTART = 2;
+// Track.GOAL = 3;
+// Track.TREE = 4;
+// Track.FLAG = 5;
 
-Track.ROAD = 0;
-Track.WALL = 1;
-Track.PLAYERSTART = 2;
-Track.GOAL = 3;
-Track.TREE = 4;
-Track.FLAG = 5;
-Track.W = 40;
-Track.H = 40;
-Track.GAP = 2;
-Track.COLS = 20;
-Track.ROWS = 15;
+
+// Track.W = 40;
+// Track.H = 40;
+// Track.GAP = 2;
+// Track.COLS = 20;
+// Track.ROWS = 15;
+
+module.exports = Track;
