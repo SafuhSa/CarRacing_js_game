@@ -1,5 +1,5 @@
 import _ from 'lodash';
-const Game = require('./game');
+// const Game = require('./game');
 const GameView = require('./game_view');
 
 document.addEventListener("DOMContentLoaded", () => { 
@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvasEl.getContext("2d");
 
   
-  const game = new Game();
-  new GameView(game, ctx).loadGame();
+  // const game = new Game();
+  new GameView(canvasEl, ctx).loadGame();
 })
 // ctx.fillStyle = 'black';
 // ctx.fillRect(0, 0, canvasEl.width, canvasEl.height)

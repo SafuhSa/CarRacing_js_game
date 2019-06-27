@@ -3,11 +3,13 @@ const ImgLoading = require('./img_loading');
 const Track = require('./track');
 const LevelMaps = require("./level_maps");
 const Car = require('./car');
+const Input = require('./input');
 
 class GameView {
-  constructor(game, ctx) {
+  constructor(canvas, ctx) {
+    this.canvas = canvas;
     this.ctx = ctx;
-    this.game = game;
+    // this.game = game;
     this.levelNow = 0;
     this.track = new Track();
     this.blueCar = new Car(this.ctx, this.track);
@@ -31,7 +33,8 @@ class GameView {
     var framesPerSecond = 30;
     setInterval(this.updateAll, 1000 / framesPerSecond);
 
-    // setupInput();
+    let input = new Input(this.canvas, this.blueCar, this.greenCar)
+    input.setupInput();
 
     this.loadLevel(LevelMaps.levelList[this.levelNow]);
   }
