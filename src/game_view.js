@@ -2,16 +2,16 @@ const GraphicCommon = require('./graphics_common');
 const ImgLoading = require('./img_loading');
 const Track = require('./track');
 const LevelMaps = require("./level_maps");
-const car = require('./car');
+const Car = require('./car');
 
 class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
     this.game = game;
     this.levelNow = 0;
-    this.track = new Track()
-    this.blueCar = new carClass();
-    this.greenCar = new carClass();
+    this.track = new Track();
+    this.blueCar = new Car(this.ctx, this.track);
+    this.greenCar = new Car(this.ctx, this.track);
 
     this.drawAll = this.drawAll.bind(this);
     this.imageLoadingDoneSoStartGame = this.imageLoadingDoneSoStartGame.bind(this);
@@ -24,10 +24,12 @@ class GameView {
     new ImgLoading(this).loadImages();
   }
 
-  imageLoadingDoneSoStartGame(trackPics) {
+  imageLoadingDoneSoStartGame(trackPics, carPic, otherCarPic) {
+    this.carPic = carPic;
+    this.otherCarPic = otherCarPic;
     this.track.trackPics = trackPics;
     var framesPerSecond = 30;
-    // setInterval(this.updateAll, 1000 / framesPerSecond);
+    setInterval(this.updateAll, 1000 / framesPerSecond);
 
     // setupInput();
 
@@ -44,8 +46,8 @@ class GameView {
 
   loadLevel(whichLevel) {
     this.track.trackGrid = whichLevel.slice();
-    greenCar.reset(otherCarPic, "Green Machine");
-    blueCar.reset(carPic, "Blue Storm");
+    this.greenCar.reset(this.otherCarPic, "Green Machine");
+    this.blueCar.reset(this.carPic, "Blue Storm");
   }
 
   updateAll() {
@@ -54,14 +56,14 @@ class GameView {
   }
 
   moveAll() {
-    blueCar.move();
-    greenCar.move();
+    this.blueCar.move();
+    this.greenCar.move();
   }
 
   drawAll() {
     this.track.drawTracks(this.ctx);
-    blueCar.draw();
-    greenCar.draw();
+    this.blueCar.draw();
+    this.greenCar.draw();
   } 
   
   // start() {

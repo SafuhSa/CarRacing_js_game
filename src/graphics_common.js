@@ -1,5 +1,5 @@
 class GraphicCommon {
-  static drawBitmapCenteredWithRotation(useBitmap, atX, atY, withAng) {
+  static drawBitmapCenteredWithRotation(canvasContext, useBitmap, atX, atY, withAng) {
     canvasContext.save();
     canvasContext.translate(atX, atY);
     canvasContext.rotate(withAng);

@@ -24,7 +24,7 @@ class Track {
 
     if (carTrackCol >= 0 && carTrackCol < LevelMaps.COLS &&
       carTrackRow >= 0 && carTrackRow < LevelMaps.ROWS) {
-      var tileHere = returnTileTypeAtColRow(carTrackCol, carTrackRow);
+      var tileHere = this.returnTileTypeAtColRow(carTrackCol, carTrackRow);
 
       if (tileHere == LevelMaps.GOAL) {
         console.log(whichCar.name + " WINS!");
@@ -50,9 +50,9 @@ class Track {
     for (var eachRow = 0; eachRow < LevelMaps.ROWS; eachRow++) {
       for (var eachCol = 0; eachCol < LevelMaps.COLS; eachCol++) {
 
-        var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
-        var tileKindHere = trackGrid[arrayIndex];
-        var useImg = trackPics[tileKindHere];
+        var arrayIndex = this.rowColToArrayIndex(eachCol, eachRow);
+        var tileKindHere = this.trackGrid[arrayIndex];
+        var useImg = this.trackPics[tileKindHere];
 
         canvasContext.drawImage(useImg, drawTileX, drawTileY);
         drawTileX += LevelMaps.W;

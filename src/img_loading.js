@@ -6,6 +6,10 @@ class ImgLoading {
     this.picsToLoad = 0; // set automatically based on imageList in loadImages()
     this.trackPics = [];
     this.gameView = GameView;
+    this.carPic = document.createElement("img");
+    this.otherCarPic = document.createElement("img");
+
+
     
     this.countLoadedImagesAndLaunchIfReady = this.countLoadedImagesAndLaunchIfReady.bind(this);
     this.beginLoadingImage = this.beginLoadingImage.bind(this);
@@ -18,7 +22,7 @@ class ImgLoading {
     // console.log(this.picsToLoad);
     if (this.picsToLoad == 0) {
       // console.log('image loaded')
-      this.gameView.imageLoadingDoneSoStartGame(this.trackPics);
+      this.gameView.imageLoadingDoneSoStartGame(this.trackPics, this.carPic, this.otherCarPic);
     }
   }
 
@@ -33,12 +37,9 @@ class ImgLoading {
   }
 
   loadImages() {
-    var carPic = document.createElement("img");
-    var otherCarPic = document.createElement("img");
-
     var imageList = [
-      { varName: carPic, theFile: "player1car.png" },
-      { varName: otherCarPic, theFile: "player2car.png" },
+      { varName: this.carPic, theFile: "player1car.png" },
+      { varName: this.otherCarPic, theFile: "player2car.png" },
 
       { trackType: LevelMaps.ROAD, theFile: "track_road.png" },
       { trackType: LevelMaps.WALL, theFile: "track_wall.png" },
