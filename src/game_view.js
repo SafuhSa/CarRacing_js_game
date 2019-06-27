@@ -1,36 +1,78 @@
 const GraphicCommon = require('./graphics_common');
 const ImgLoading = require('./img_loading');
+const Track = require('./track');
 
 class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
     this.game = game;
+    this.levelNow = 0;
+    this.track = new Track()
   }
 
   loadGame() {
     GraphicCommon.colorRect(this.ctx, 0, 0, GameView.WIDTH, GameView.HEIGHT, 'black');
     GraphicCommon.colorText(this.ctx, "LOADING IMAGES", GameView.WIDTH / 2, GameView.HEIGHT / 2, 'white');
-
-    ImgLoading.loadImages();
+    new ImgLoading().loadImages();
   }
+
+  imageLoadingDoneSoStartGame(trackPics) {
+    this.track.trackPics = trackPics;
+    var framesPerSecond = 30;
+    setInterval(updateAll, 1000 / framesPerSecond);
+
+    setupInput();
+
+    this.loadLevel(levelList[levelNow]);
+  }
+
+  nextLevel() {
+    this.levelNow++;
+    if (this.levelNow >= levelList.length) {
+      this.levelNow = 0;
+    }
+    this.loadLevel(levelList[levelNow]);
+  }
+
+  loadLevel(whichLevel) {
+    this.track.trackGrid = whichLevel.slice();
+    greenCar.reset(otherCarPic, "Green Machine");
+    blueCar.reset(carPic, "Blue Storm");
+  }
+
+  updateAll() {
+    this.moveAll();
+    this.drawAll();
+  }
+
+  moveAll() {
+    blueCar.move();
+    greenCar.move();
+  }
+
+  drawAll() {
+    this.track.drawTracks(this.ctx);
+    blueCar.draw();
+    greenCar.draw();
+  } 
   
-  start() {
-    this.bindKeyHandlers();
-    this.lastTime = 0;
-    // start the animation
-   this.id = requestAnimationFrame(this.animate.bind(this));
-  }
+  // start() {
+  //   this.bindKeyHandlers();
+  //   this.lastTime = 0;
+  //   // start the animation
+  //  this.id = requestAnimationFrame(this.animate.bind(this));
+  // }
 
-  animate(time) {
-    const timeDelta = time - this.lastTime;
+  // animate(time) {
+  //   const timeDelta = time - this.lastTime;
 
-    this.game.step(timeDelta);
-    this.game.draw(this.ctx);
-    this.lastTime = time;
+  //   this.game.step(timeDelta);
+  //   this.game.draw(this.ctx);
+  //   this.lastTime = time;
 
-    // every call to animate requests causes another call to animate
-   this.id = requestAnimationFrame(this.animate.bind(this));
-  }
+  //   // every call to animate requests causes another call to animate
+  //  this.id = requestAnimationFrame(this.animate.bind(this));
+  // }
 }
 
 
