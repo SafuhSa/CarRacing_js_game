@@ -59,7 +59,6 @@ class Car {
 
   move() {
     this.speed *= GROUNDSPEED_DECAY_MULT;
-
     if (this.keyHeld_Gas) {
       this.speed += DRIVE_POWER;
     }

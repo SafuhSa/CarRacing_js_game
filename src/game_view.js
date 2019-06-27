@@ -11,7 +11,7 @@ class GameView {
     this.ctx = ctx;
     // this.game = game;
     this.levelNow = 0;
-    this.track = new Track();
+    this.track = new Track(this);
     this.blueCar = new Car(this.ctx, this.track);
     this.greenCar = new Car(this.ctx, this.track);
 
@@ -41,10 +41,10 @@ class GameView {
 
   nextLevel() {
     this.levelNow++;
-    if (this.levelNow >= levelList.length) {
+    if (this.levelNow >= LevelMaps.levelList.length) {
       this.levelNow = 0;
     }
-    this.loadLevel(LevelMaps.levelList[levelNow]);
+    this.loadLevel(LevelMaps.levelList[this.levelNow]);
   }
 
   loadLevel(whichLevel) {
