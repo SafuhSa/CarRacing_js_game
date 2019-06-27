@@ -28,7 +28,7 @@ class ImgLoading {
 
   beginLoadingImage(imgVar, fileName) {
     imgVar.onload = this.countLoadedImagesAndLaunchIfReady;
-    imgVar.src = "./images/" + fileName;
+    imgVar.src = "./dist/images/" + fileName;
   }
 
   loadImageForTrackCode(trackCode, fileName) {
