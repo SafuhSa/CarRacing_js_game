@@ -1,5 +1,6 @@
 const GraphicCommon = require('./graphics_common');
-// const ImgLoading = 
+const ImgLoading = require('./img_loading');
+
 class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
@@ -10,12 +11,10 @@ class GameView {
     GraphicCommon.colorRect(this.ctx, 0, 0, GameView.WIDTH, GameView.HEIGHT, 'black');
     GraphicCommon.colorText(this.ctx, "LOADING IMAGES", GameView.WIDTH / 2, GameView.HEIGHT / 2, 'white');
 
-    loadImages();
+    ImgLoading.loadImages();
   }
   
   start() {
-
-
     this.bindKeyHandlers();
     this.lastTime = 0;
     // start the animation
